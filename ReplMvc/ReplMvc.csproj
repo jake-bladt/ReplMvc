@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ActionResult.cs" />
     <Compile Include="Controllers\IController.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="ReplApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\ConsoleView.cs" />
