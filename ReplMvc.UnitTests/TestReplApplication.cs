@@ -13,6 +13,7 @@ namespace ReplMvc.UnitTests
         {
             var app = new ReplApplication();
             Assert.AreEqual(2, app.CommandActions.Count);
+            Assert.IsNull(app.View);
         }
     }
 }
