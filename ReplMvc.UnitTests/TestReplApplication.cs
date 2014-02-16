@@ -31,5 +31,48 @@ namespace ReplMvc.UnitTests
             Assert.AreEqual(view, app.View);
         }
 
+        [TestMethod]
+        public void TestCallCommandWithNullArgs()
+        {
+            var commandStack = new Stack<String>();
+            commandStack.Push("call-action");
+            var view = new SimpleMockView(commandStack);
+            var passthroughController = new PassthroughController();
+            var controllers = new IController[] { passthroughController };
+            var app = new ReplApplication(view, controllers);
+
+            app.Repl();
+
+            // Responses should only be two OKs.
+            Assert.AreEqual(2, view.ResponseStack.Count);
+            while (view.ResponseStack.Count > 0)
+            {
+                Assert.AreEqual("OK", view.ResponseStack.Pop());
+            }
+        }
+
+
+        [TestMethod]
+        public void TestCallCommandWithArgs()
+        {
+            var commandStack = new Stack<String>();
+            commandStack.Push("call-action this that");
+            var view = new SimpleMockView(commandStack);
+            var passthroughController = new PassthroughController();
+            var controllers = new IController[] { passthroughController };
+            var app = new ReplApplication(view, controllers);
+
+            app.Repl();
+
+            // Responses should be OK this that OK
+            Assert.AreEqual(4, view.ResponseStack.Count);
+            var missingResponses = new List<String> { "this", "that", "OK" };
+            while (view.ResponseStack.Count > 0)
+            {
+                var resp = view.ResponseStack.Pop();
+                if (missingResponses.Contains(resp)) missingResponses.Remove(resp);
+            }
+            Assert.AreEqual(0, missingResponses.Count);
+        }
     }
 }

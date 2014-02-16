@@ -14,26 +14,33 @@ namespace ReplMvc.UnitTests.Mocks
         public Stack<String> ResponseStack { get; protected set; }
         public Stack<String> RequestStack { get; protected set; }
 
-        public SimpleMockView(Stack<String> responseStack)
+        public SimpleMockView(Stack<String> requestStack)
         {
-            RequestStack = new Stack<string>();
-            ResponseStack = responseStack;
+            RequestStack = requestStack;
+            ResponseStack = new Stack<string>();
         }
 
         public string GetInput()
         {
-            return ResponseStack.Pop();
+            if (0 == RequestStack.Count)
+            {
+                return "quit";
+            }
+            else
+            {
+                return RequestStack.Pop();
+            }
         }
 
         public string GetInput(string prompt)
         {
-            RequestStack.Push(prompt);
-            return ResponseStack.Pop();
+            ResponseStack.Push(prompt);
+            return RequestStack.Pop();
         }
 
         public void SendMessage(string message)
         {
-            RequestStack.Push(message);
+            ResponseStack.Push(message);
         }
     }
 }
