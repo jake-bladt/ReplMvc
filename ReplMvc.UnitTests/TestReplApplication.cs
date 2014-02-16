@@ -9,8 +9,10 @@ namespace ReplMvc.UnitTests
     public class TestReplApplication
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestEmptyReplApplication()
         {
+            var app = new ReplApplication();
+            Assert.AreEqual(2, app.CommandActions.Count);
         }
     }
 }

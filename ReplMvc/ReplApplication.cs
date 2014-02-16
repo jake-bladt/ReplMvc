@@ -18,6 +18,9 @@ namespace ReplMvc
 
         public ReplApplication(IView view = null, IController[] controllers = null)
         {
+            // Initialize
+            CommandActions = new Dictionary<string, Func<string[], ActionResult>>();
+
             // Attempt to register view.
             if (null != view)
             {
