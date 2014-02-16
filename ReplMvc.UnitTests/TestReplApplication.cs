@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ReplMvc;
 using ReplMvc.Controllers;
+using ReplMvc.Exceptions;
 using ReplMvc.UnitTests.Mocks;
 
 namespace ReplMvc.UnitTests
@@ -74,5 +75,25 @@ namespace ReplMvc.UnitTests
             }
             Assert.AreEqual(0, missingResponses.Count);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ReplAppSetupException))]
+        public void TestRedundantCommandRegistrationWithNullView()
+        {
+            var passthroughController = new PassthroughController();
+            var controllers = new IController[] { passthroughController, passthroughController };
+            var app = new ReplApplication(null, controllers);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NoViewRegisteredException))]
+        public void TestAttemptedOutputWithNullView()
+        {
+            var passthroughController = new PassthroughController();
+            var controllers = new IController[] { passthroughController };
+            var app = new ReplApplication(null, controllers);
+            app.Repl();
+        }
+
     }
 }

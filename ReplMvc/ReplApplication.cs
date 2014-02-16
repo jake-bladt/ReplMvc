@@ -71,6 +71,8 @@ namespace ReplMvc
 
         public virtual void Repl()
         {
+            if (null == View) throw new NoViewRegisteredException("Cannot enter REPL loop with no view defined.");
+
             var lastResult = new ActionResult(null, true, false);
             while (!lastResult.IsTerminalAction)
             {
