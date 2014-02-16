@@ -18,6 +18,9 @@ namespace ReplMvc
 
         public ReplApplication(IView view = null, IController[] controllers = null)
         {
+            // Initialize
+            CommandActions = new Dictionary<string,Func<string[],ActionResult>>();
+
             // Attempt to register view.
             if (null != view)
             {
@@ -68,6 +71,8 @@ namespace ReplMvc
 
         public virtual void Repl()
         {
+            if (null == View) throw new NoViewRegisteredException("Cannot enter REPL loop with no view defined.");
+
             var lastResult = new ActionResult(null, true, false);
             while (!lastResult.IsTerminalAction)
             {
@@ -87,7 +92,11 @@ namespace ReplMvc
                     else
                     {
                         string[] args = null;
-                        if (commandParts.Length > 1) Array.Copy(commandParts, 1, args, 0, commandParts.Length - 1);
+                        if (commandParts.Length > 1)
+                        {
+                            args = new string[commandParts.Length - 1];
+                            Array.Copy(commandParts, 1, args, 0, commandParts.Length - 1);
+                        }
                         lastResult = action.Invoke(args);
                         DisplayResult(lastResult);
                     }
