@@ -12,7 +12,7 @@ namespace ReplMvc.UnitTests
         public void TestEmptyReplApplication()
         {
             var app = new ReplApplication();
-            Assert.AreEqual(2, app.CommandActions.Count);
+            Assert.AreEqual(2, app.CommandActions.Count);  // built-in commands from ReplApplication.
             Assert.IsNull(app.View);
         }
     }

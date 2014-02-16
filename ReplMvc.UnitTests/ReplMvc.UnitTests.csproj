@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Mocks\PassthroughController.cs" />
     <Compile Include="Mocks\SimpleMockView.cs" />
     <Compile Include="TestReplApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
