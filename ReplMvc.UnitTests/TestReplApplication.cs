@@ -95,5 +95,15 @@ namespace ReplMvc.UnitTests
             app.Repl();
         }
 
+        [TestMethod]
+        public void TestRedundantViewRegistration()
+        {
+            var passthroughController = new PassthroughController();
+            var view = new SimpleMockView(new Stack<String>());
+            var controllers = new IController[] { passthroughController };
+            var app = new ReplApplication(view, controllers);
+            var registerResult = app.RegisterView(view);
+            Assert.AreEqual("View already registered. ReplApplication only supports a single view.", registerResult.Messages[0]);
+        }
     }
 }
