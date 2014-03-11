@@ -15,6 +15,7 @@ namespace ReplMvc
     {
         public IView View { get; protected set; }
         public Dictionary<string, Func<String[], ActionResult>> CommandActions { get; protected set; }
+        public bool Quieter = false;
 
         public ReplApplication(IView view = null, IController[] controllers = null)
         {
@@ -150,7 +151,15 @@ namespace ReplMvc
                 throw new NoViewRegisteredException("Cannot display action result. No view registered.");
             }
 
-            View.SendMessage(ar.Success ? "OK" : "Error.");
+            if (Quieter)
+            {
+                if (!ar.Success) View.SendMessage("Error.");
+            }
+            else
+            {
+                View.SendMessage(ar.Success ? "OK" : "Error.");
+            }
+
             if (null != ar.Messages)
             {
                 for (int i = 0; i < ar.Messages.Length; i++)

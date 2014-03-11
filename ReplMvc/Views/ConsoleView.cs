@@ -6,12 +6,12 @@ namespace ReplMvc.Views
     {
         public string GetInput()
         {
-            return GetInput("Ready");
+            return GetInput(String.Empty);
         }
 
         public string GetInput(string prompt)
         {
-            SendMessage(prompt);
+            if(!String.IsNullOrEmpty(prompt)) SendMessage(prompt);
             Console.Write("> ");
             return Console.ReadLine();
         }
